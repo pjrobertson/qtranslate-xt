@@ -54,7 +54,7 @@ class QTX_Admin_Gutenberg {
     public function rest_prepare( $response, $post, $request ) {
         global $q_config;
 
-        if ( $request['context'] !== 'edit' || $request->get_method() !== 'GET' ) {
+        if ( $request->get_param( 'context' ) !== 'edit' || $request->get_method() !== 'GET' ) {
             return $response;
         }
 
@@ -98,7 +98,6 @@ class QTX_Admin_Gutenberg {
         foreach ( $fields as $field ) {
             if ( ! isset( $request_body[ $field ] ) ) {
                 continue; // only the changed fields are set in the REST request
-
             }
 
             // split original values with empty strings by default
@@ -125,7 +124,6 @@ class QTX_Admin_Gutenberg {
             $new_data = qtranxf_join_b( $split );
 
             $request->set_param( $field, $new_data );
-            //$request_body[ $field ] =  $new_data;
         }
 
         return $response;
@@ -141,7 +139,7 @@ class QTX_Admin_Gutenberg {
      * @return mixed
      */
     public function rest_request_after_callbacks( $response, $handler, $request ) {
-        if ( $request['context'] !== 'edit' || $request->get_method() !== 'PUT' && $request->get_method() !== 'POST' ) {
+        if ( $request->get_param( 'context' ) !== 'edit' || $request->get_method() !== 'PUT' && $request->get_method() !== 'POST' ) {
             return $response;
         }
 
@@ -181,8 +179,8 @@ class QTX_Admin_Gutenberg {
     private function select_raw_response_language( $response, $editor_lang ) {
         $response_data = $response->get_data();
         if ( isset( $response_data['content'] ) && is_array( $response_data['content'] ) && isset( $response_data['content']['raw'] ) ) {
-            $response_data['title']['raw']    = qtranxf_use( $editor_lang, $response_data['title']['raw'], false, true );
-            $response_data['content']['raw']  = qtranxf_use( $editor_lang, $response_data['content']['raw'], false, true );
+            $response_data['title']['raw']   = qtranxf_use( $editor_lang, $response_data['title']['raw'], false, true );
+            $response_data['content']['raw'] = qtranxf_use( $editor_lang, $response_data['content']['raw'], false, true );
 
             if ( isset( $response_data['excerpt']['raw'] ) ) {
                 $response_data['excerpt']['raw'] = qtranxf_use( $editor_lang, $response_data['excerpt']['raw'], false, true );
