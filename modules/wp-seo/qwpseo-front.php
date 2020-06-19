@@ -272,9 +272,10 @@ add_filter( 'wpseo_title', 'qwpseo_test_filter');
 add_filter( 'wpseo_meta', 'qwpseo_test_filter');
 add_filter( 'wpseo_metadesc', 'qwpseo_test_filter');
 add_filter( 'wpseo_replacements', 'qwpseo_test_filter');
-*/
+
 add_filter( 'wpseo_schema_webpage', 'qwpseo_webpage_schema' );
 function qwpseo_webpage_schema($data) {
+	global $q_config;
 	$lang   = $q_config['language'];
 	$data['description'] = qtranxf_use_language($lang,$data['description'], false, false);
 	$data['name'] = qtranxf_use_language($lang,$data['name'], false, false);
